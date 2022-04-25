@@ -1,10 +1,13 @@
 class IndecisionApp extends React.Component{
     render(){
+        const title = 'indecision';
+        const subtitle = 'FirstPractice For Component';
+        const options = ['Option one','Option two','Option three']
         return(
             <div>
-                <Header/>
+                <Header title={title} subtitle={subtitle}/>
                 <Action/>
-                <Options/>
+                <Options options={options}/>
                 <AddOption/>
             </div>
         )
@@ -12,42 +15,48 @@ class IndecisionApp extends React.Component{
 }
 class Header extends React.Component{
     render(){
+        console.log(this.props)
         return (
             <div>
-                <h1>ReactDemo</h1>
-                <h2>FirstPractice For Component</h2>
+                <h1>{this.props.title}</h1>
+                <h2>{this.props.subtitle}</h2>
             </div>
         )
     }
 }
 class Action extends React.Component{
+    handleClick(){
+        console.log("Click")
+    }
     render(){
         return (
             <div>
-                <button>What should I do?</button>
+                <button onClick={this.handleClick}>What should I do?</button>
             </div>
         )
     }
 }
+//setup option prop render the length
+//render new p tag for each option (set text , set key )
 //Options -> Options components here
+
+//    >>>>"Class29."<<<<<
+//Add Remove All button
+//Setup handleRemoveAll -> alert some message 
+//setup onClick to fire the method 
 class Options extends React.Component{
-    render(){
-        return(
-            <div>
-            <br></br>
-                Options components here
-                <Option/>
-            </div>
-        )
+    RemoveAll(){
+        // alert('Remove All Successful')
+        console.log(this.props.optoins)
     }
-}
-//AddOption -> AddOption component here
-class AddOption extends React.Component{
     render(){
         return(
             <div>
-                <br></br>
-                AddOption component here
+                <button onClick={this.RemoveAll}>RemoveAll</button>
+                    {/* this.props.options.map((option)=><p key={option}>{option}</p>) */}
+                { // 裡面可寫js語法 與 return 產生DOM物件有所不同
+                    this.props.options.map((option)=><Option key={option} optionText={option}/>)
+                }            
             </div>
         )
     }
@@ -56,7 +65,36 @@ class AddOption extends React.Component{
 class Option extends React.Component{
     render(){
         return(
-            <div>Option component here</div>
+            <div>Option : {this.props.optionText}</div>
+        )
+    }
+}
+//AddOption -> AddOption component here
+
+//>>>>>> Class 29.<<<<<<
+//setup the form with text input and submit button
+//Wire up onSubmit
+//handelAddOption -> fetch value > if value then alert 
+class AddOption extends React.Component{
+    formSubmit(e){
+        e.preventDefault();
+        const option = e.target.elements.option.value;
+        if(option.trim()){
+            alert("emptyValue")
+        }
+        // else{
+        //     alert("Success")
+        //     e.target.elements.option.value = '';
+        // }
+    }
+    render(){
+        return(
+            <div>
+                <form onSubmit={this.formSubmit}>
+                    <input type="text" name="option"></input>
+                    <button>add</button>
+                </form>
+            </div>
         )
     }
 }
