@@ -1,3 +1,17 @@
+const obj = {
+    name :'noah',
+    getName(){
+        return this.name;
+    }
+};
+const func = function(){
+    console.log(this)
+}
+func()
+// const getName = obj.getName.bind({name:'kevin'}) ; 綁定須使用陣列
+const getName = obj.getName.bind(obj)
+console.log(getName())
+
 class IndecisionApp extends React.Component{
     render(){
         const title = 'indecision';
@@ -45,14 +59,18 @@ class Action extends React.Component{
 //Setup handleRemoveAll -> alert some message 
 //setup onClick to fire the method 
 class Options extends React.Component{
+    constructor(props){
+        super(props);
+        this.RemoveAll = this.RemoveAll.bind(this);
+    }//使用constructor綁定就不需要在底下每次使用時都再次使用
     RemoveAll(){
         // alert('Remove All Successful')
-        console.log(this.props.optoins)
+        console.log(this.props.options);
     }
     render(){
         return(
             <div>
-                <button onClick={this.RemoveAll}>RemoveAll</button>
+                <button onClick={this.RemoveAll.bind(this)}>RemoveAll</button> {/*//使用bind(this)作法不好，是沒效率的*/}
                     {/* this.props.options.map((option)=><p key={option}>{option}</p>) */}
                 { // 裡面可寫js語法 與 return 產生DOM物件有所不同
                     this.props.options.map((option)=><Option key={option} optionText={option}/>)

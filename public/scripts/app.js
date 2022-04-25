@@ -8,6 +8,20 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var obj = {
+    name: 'noah',
+    getName: function getName() {
+        return this.name;
+    }
+};
+var func = function func() {
+    console.log(this);
+};
+func();
+// const getName = obj.getName.bind({name:'kevin'}) ; 綁定須使用陣列
+var getName = obj.getName.bind(obj);
+console.log(getName());
+
 var IndecisionApp = function (_React$Component) {
     _inherits(IndecisionApp, _React$Component);
 
@@ -114,17 +128,21 @@ var Action = function (_React$Component3) {
 var Options = function (_React$Component4) {
     _inherits(Options, _React$Component4);
 
-    function Options() {
+    function Options(props) {
         _classCallCheck(this, Options);
 
-        return _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).apply(this, arguments));
-    }
+        var _this4 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
+
+        _this4.RemoveAll = _this4.RemoveAll.bind(_this4);
+        return _this4;
+    } //使用constructor綁定就不需要在底下每次使用時都再次使用
+
 
     _createClass(Options, [{
         key: 'RemoveAll',
         value: function RemoveAll() {
             // alert('Remove All Successful')
-            console.log(this.props.optoins);
+            console.log(this.props.options);
         }
     }, {
         key: 'render',
@@ -134,9 +152,10 @@ var Options = function (_React$Component4) {
                 null,
                 React.createElement(
                     'button',
-                    { onClick: this.RemoveAll },
+                    { onClick: this.RemoveAll.bind(this) },
                     'RemoveAll'
                 ),
+                ' ',
                 // 裡面可寫js語法 與 return 產生DOM物件有所不同
                 this.props.options.map(function (option) {
                     return React.createElement(Option, { key: option, optionText: option });
