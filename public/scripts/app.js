@@ -8,47 +8,28 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Conunter = function (_React$Component) {
-    _inherits(Conunter, _React$Component);
+//5/16 23:37 Class 35 改寫由Component組成
+var Visible = function (_React$Component) {
+    _inherits(Visible, _React$Component);
 
-    function Conunter(props) {
-        _classCallCheck(this, Conunter);
+    function Visible(props) {
+        _classCallCheck(this, Visible);
 
-        var _this = _possibleConstructorReturn(this, (Conunter.__proto__ || Object.getPrototypeOf(Conunter)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Visible.__proto__ || Object.getPrototypeOf(Visible)).call(this, props));
 
-        _this.AddOne = _this.AddOne.bind(_this);
-        _this.MinusOne = _this.MinusOne.bind(_this);
-        _this.Reset = _this.Reset.bind(_this);
+        _this.toggleVisibility = _this.toggleVisibility.bind(_this);
         _this.state = {
-            count: 0
+            visibility: false
         };
         return _this;
     }
 
-    _createClass(Conunter, [{
-        key: 'AddOne',
-        value: function AddOne() {
+    _createClass(Visible, [{
+        key: 'toggleVisibility',
+        value: function toggleVisibility() {
             this.setState(function (e) {
                 return {
-                    count: e.count + 1
-                };
-            });
-        }
-    }, {
-        key: 'MinusOne',
-        value: function MinusOne() {
-            this.setState(function (e) {
-                return {
-                    count: e.count - 1
-                };
-            });
-        }
-    }, {
-        key: 'Reset',
-        value: function Reset() {
-            this.setState(function () {
-                return {
-                    count: 0
+                    visibility: !e.visibility
                 };
             });
         }
@@ -61,84 +42,120 @@ var Conunter = function (_React$Component) {
                 React.createElement(
                     'h1',
                     null,
-                    'Count:',
-                    this.state.count
+                    'UdemyDemo'
                 ),
                 React.createElement(
                     'button',
-                    { onClick: this.AddOne },
-                    '+1'
+                    { onClick: this.toggleVisibility },
+                    this.state.visibility ? 'Hide' : 'Show'
                 ),
-                React.createElement(
-                    'button',
-                    { onClick: this.MinusOne },
-                    '-1'
-                ),
-                React.createElement(
-                    'button',
-                    { onClick: this.Reset },
-                    'reset'
+                this.state.visibility && React.createElement(
+                    'div',
+                    null,
+                    React.createElement(
+                        'p',
+                        null,
+                        'Hey~'
+                    )
                 )
             );
         }
     }]);
 
-    return Conunter;
+    return Visible;
 }(React.Component);
 
-ReactDOM.render(React.createElement(Conunter, null), document.getElementById('app'));
-// 講解是否有在function("e")內傳e值所帶來影響
-// 如果有給值則會先抓取方法內的值 也就是count 
-// 來做+1 而不是抓取前一筆資料來做+1的動作
-// this.setState((e)=>{
-//     console.log(e)
-//     return{
-//         count:e.count+1
+ReactDOM.render(React.createElement(Visible, null), document.getElementById('app'));
+// class Visible extends React.Component{
+//     constructor(props){
+//         super(props);
+//         this.func = this.func.bind(this);
+//         this.state={
+//             showOrHide:'show',
+//             OptionValue:[]
+//         };
 //     }
-// });
-// 講解是否有在function()內傳值所帶來影響
-// this.setState({
-//     count:0
-// });
-// this.setState({
-//     count:this.state.count +1
-// });
+//     func(){
+//         console.log('ok')
+//         if(this.state.showOrHide == 'show'){           
+//             this.setState((e)=>{
+//                 return{        
+//                     OptionValue : e.OptionValue = ['HelloWorld'],
+//                     showOrHide : e.showOrHide = 'Hide'
+//                 };
+//             });
+//         }else{
+//             this.setState((e)=>{
+//                 return{        
+//                     OptionValue : e.OptionValue = [],
+//                     showOrHide : e.showOrHide = 'show'
+//                 };
+//             });
+//         }
+//     }
+//     render(){
+//         return(
+//             <div>
+//                 <h1>HideAndShowTest</h1>
+//                 <button onClick={this.func}>{this.state.showOrHide}</button>
+//                 <p>{this.state.OptionValue}</p>
+//             </div>
+//         )
+//     }
+// }
+// ReactDOM.render(<Visible/>,document.getElementById('app'))
 
 
-// const appRoot = document.getElementById('app');
-// let count = 0;
-// const addOne = () => {
-//     count++;
-//     renderCountApp();
-//     console.log('addOne',count)
-// };
-// const someId = 'myidhere';
-// const minusOne = () => {
-//     //練習減1
-//     count--;
-//     renderCountApp();
-//     console.log('-1')
+// let visibility = false;
+// const toggleVisibility = () =>{
+//     visibility = !visibility;
+//     render()
 // }
-// const reset = () => {
-//     //練習重置
-//     count = 0;
-//     renderCountApp();
-//     console.log('reset')
-// }
-// const renderCountApp = () => { // 因為每次數值變動都應該對應ReactDOM.render 並渲染到頁面上 因此不可以只打 某值++/-- 
-//     //因此在這邊設一個方法創建出一個新的DOM來配合渲染畫面
-//     const template2 = (
+// const render = () => {
+//     const jsx =(
 //         <div>
-//             <h1>Count:{count}</h1>
-//             <button id={someId} className="button" onClick={addOne}>+1</button>
-//             <br></br>
-//             <button onClick={minusOne}>-1</button>
-//             <br></br>
-//             <button onClick={reset}>reset</button>
+//             <h1>UdemyDemo</h1>
+//             <button onClick={toggleVisibility}>
+//                 {visibility?'Hide':'Show'}
+//             </button>
+//             {visibility && (
+//                 <div>
+//                     <p>Hey~</p>
+//                 </div>
+//             )}
 //         </div>
-//     );
-//     ReactDOM.render(template2,appRoot);
+//     )
+//     ReactDOM.render(jsx,document.getElementById('app'))
 // }
+// render()
 
 
-// renderCountApp();
+// Class 35 VisibilityToggle - render,constructor,handelToggleVisibility
+//visibility -> ture/false 之間變動
+
+
+// const Value = {
+//     option:[],
+//     showOrHide:'show'
+// }
+// const func2 = () =>{
+//     const template = (
+//         <div>
+//             <h1>HideAndShowTest ! !</h1>
+//             <button onClick={func}>{Value.showOrHide}</button>
+//             <p>{Value.option}</p>
+//         </div>
+//     ) 
+//     ReactDOM.render(template,document.getElementById('app'));
+// }
+// const func = () => {
+//     if(Value.showOrHide == 'show' ){
+//         Value.option.push('Hey~')
+//         Value.showOrHide = 'hide'
+//     }else{
+//         Value.option = []
+//         Value.showOrHide = 'show'
+//     }
+//     func2()
+// }
+// func2()
