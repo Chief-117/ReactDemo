@@ -14,9 +14,9 @@ var Conunter = function (_React$Component) {
     function Conunter(props) {
         _classCallCheck(this, Conunter);
 
-        // this.AddOne = this.AddOne.bind(this);
         var _this = _possibleConstructorReturn(this, (Conunter.__proto__ || Object.getPrototypeOf(Conunter)).call(this, props));
 
+        _this.AddOne = _this.AddOne.bind(_this);
         _this.MinusOne = _this.MinusOne.bind(_this);
         _this.Reset = _this.Reset.bind(_this);
         _this.state = {
@@ -28,17 +28,29 @@ var Conunter = function (_React$Component) {
     _createClass(Conunter, [{
         key: 'AddOne',
         value: function AddOne() {
-            console.log('AddOne');
+            this.setState(function (e) {
+                return {
+                    count: e.count + 1
+                };
+            });
         }
     }, {
         key: 'MinusOne',
         value: function MinusOne() {
-            console.log('MinusOne');
+            this.setState(function (e) {
+                return {
+                    count: e.count - 1
+                };
+            });
         }
     }, {
         key: 'Reset',
         value: function Reset() {
-            console.log('Reset');
+            this.setState(function () {
+                return {
+                    count: 0
+                };
+            });
         }
     }, {
         key: 'render',
@@ -75,6 +87,24 @@ var Conunter = function (_React$Component) {
 }(React.Component);
 
 ReactDOM.render(React.createElement(Conunter, null), document.getElementById('app'));
+// 講解是否有在function("e")內傳e值所帶來影響
+// 如果有給值則會先抓取方法內的值 也就是count 
+// 來做+1 而不是抓取前一筆資料來做+1的動作
+// this.setState((e)=>{
+//     console.log(e)
+//     return{
+//         count:e.count+1
+//     }
+// });
+// 講解是否有在function()內傳值所帶來影響
+// this.setState({
+//     count:0
+// });
+// this.setState({
+//     count:this.state.count +1
+// });
+
+
 // const appRoot = document.getElementById('app');
 // let count = 0;
 // const addOne = () => {

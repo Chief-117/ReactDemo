@@ -2,7 +2,7 @@ class Conunter extends React.Component{
     
     constructor(props){
         super(props);
-        // this.AddOne = this.AddOne.bind(this);
+        this.AddOne = this.AddOne.bind(this);
         this.MinusOne = this.MinusOne.bind(this);
         this.Reset = this.Reset.bind(this);
         this.state = {
@@ -10,13 +10,25 @@ class Conunter extends React.Component{
         };
     }
     AddOne(){
-        console.log('AddOne')
+        this.setState((e)=>{
+            return{
+                count:e.count +1
+            };
+        });
     }
     MinusOne(){
-        console.log('MinusOne')
+        this.setState((e)=>{
+            return{
+                count:e.count-1
+            };
+        });
     }
     Reset(){
-        console.log('Reset')
+        this.setState(()=>{
+            return{
+                count : 0
+            };
+        });
     }
     render(){
         return(
@@ -30,6 +42,26 @@ class Conunter extends React.Component{
     }
 }
 ReactDOM.render(<Conunter/>,document.getElementById('app'))
+// 講解是否有在function("e")內傳e值所帶來影響
+// 如果有給值則會先抓取方法內的值 也就是count 
+// 來做+1 而不是抓取前一筆資料來做+1的動作
+// this.setState((e)=>{
+//     console.log(e)
+//     return{
+//         count:e.count+1
+//     }
+// });
+// 講解是否有在function()內傳值所帶來影響
+// this.setState({
+//     count:0
+// });
+// this.setState({
+//     count:this.state.count +1
+// });
+
+
+
+
 // const appRoot = document.getElementById('app');
 // let count = 0;
 // const addOne = () => {
