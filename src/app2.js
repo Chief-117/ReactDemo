@@ -34,7 +34,19 @@ class IndecisionApp extends React.Component{
         alert(this.state.options[Math.floor(Math.random()*this.state.options.length)])
     }
     formSubmit(option){
-        console.log(option)
+        if(!option){
+            return "請輸入值";
+        }else if(this.state.options.indexOf(option)>-1){
+            return "此值已存在"
+        }else{
+
+        }
+        this.setState((e)=>{
+            return{
+                options : e.options.concat([option])
+                //concat可使原有陣列資料不受到破壞
+            };
+        })
     }
     render(){
         const title = 'indecision';
@@ -121,13 +133,20 @@ class AddOption extends React.Component{
     constructor(props){
         super(props);
         this.formSubmit = this.formSubmit.bind(this);
+        this.state={
+            error:undefined
+        };
     }
     formSubmit(e){
         e.preventDefault();
         const option = e.target.elements.option.value.trim();
-        if(option){
-            this.props.formSubmit(option);
-        }
+        const error = this.props.formSubmit(option);;
+        this.setState(()=>{
+            return{error}
+        });
+        // if(option){
+        //     this.props.formSubmit(option);
+        // } 
         // else{
         //     alert("Success")
         //     e.target.elements.option.value = '';
@@ -136,6 +155,7 @@ class AddOption extends React.Component{
     render(){
         return(
             <div>
+            {this.state.error && <p>{this.state.error}</p>}
                 <form onSubmit={this.formSubmit}>
                     <input type="text" name="option"></input>
                     <button>add</button>
