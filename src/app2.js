@@ -16,7 +16,7 @@ class IndecisionApp extends React.Component{
     constructor (props){
         super(props)
         this.state = {
-            options:['Option one','Option two','Option three']
+            options:props.options
         };
         this.handleRemove = this.handleRemove.bind(this)
         this.handleClick = this.handleClick.bind(this)
@@ -54,7 +54,7 @@ class IndecisionApp extends React.Component{
         // const options = ['Option one','Option two','Option three']
         return(
             <div>
-                <Header title={title} subtitle={subtitle}/>
+                <Header />
                 <Action handleClick={this.handleClick} hasOptions={this.state.options.length > 0 }/>
                 <Options handleRemove={this.handleRemove} options={this.state.options}/>
                 <AddOption formSubmit={this.formSubmit}/>
@@ -62,30 +62,60 @@ class IndecisionApp extends React.Component{
         )
     }
 }
-class Header extends React.Component{
-    render(){
-        console.log(this.props)
-        return (
-            <div>
-                <h1>{this.props.title}</h1>
-                <h2>{this.props.subtitle}</h2>
-            </div>
-        )
-    }
+IndecisionApp.defaultProps = {
+    options:[]  
 }
-class Action extends React.Component{
-    // handleClick(){
-    //     // console.log("Click")
-    //     alert('click')
-    // }
-    render(){
-        return (
-            <div>
-                <button onClick={this.props.handleClick} disabled={!this.props.hasOptions}>What should I do?</button>
-            </div>
-        )
-    }
+const Header = (props) =>{
+    return(
+        <div>
+            <h1>{props.title}</h1>
+            <h2>{props.subtitle}</h2>
+        </div>
+    );
 }
+Header.defaultProps = {
+    title : 'defalut value'
+};
+// class Header extends React.Component{
+//     render(){
+//         console.log(this.props)
+//         return (
+//             <div>
+//                 <h1>{this.props.title}</h1>
+//                 <h2>{this.props.subtitle}</h2>
+//             </div>
+//         )
+//     }
+// }
+//Class40 轉換為function component
+const Action = (props) =>{
+    return (
+        <div>
+            <button onClick={props.handleClick} 
+                    disabled={!props.hasOptions}
+                    >
+                    What should I do?
+            </button>
+        </div>
+    )
+}
+// class Action extends React.Component{
+//     // handleClick(){
+//     //     // console.log("Click")
+//     //     alert('click')
+//     // }
+//     render(){
+//         return (
+//             <div>
+//                 <button onClick={this.props.handleClick} disabled={!this.props.hasOptions}>What should I do?</button>
+//             </div>
+//         )
+//     }
+// }
+
+
+
+
 //setup option prop render the length
 //render new p tag for each option (set text , set key )
 //Options -> Options components here
@@ -94,35 +124,51 @@ class Action extends React.Component{
 //Add Remove All button
 //Setup handleRemoveAll -> alert some message 
 //setup onClick to fire the method 
-class Options extends React.Component{
-    // constructor(props){
-    //     super(props);
-    //     this.RemoveAll = this.RemoveAll.bind(this);
-    // }//使用constructor綁定就不需要在底下每次使用時都再次使用
-    // RemoveAll(){
-    //     // alert('Remove All Successful')
-    //     console.log(this.props.options);
-    // }
-    render(){
-        return(
-            <div>
-                <button onClick={this.props.handleRemove}>RemoveAll</button> {/*//使用bind(this)作法不好，是沒效率的*/}
-                    {/* this.props.options.map((option)=><p key={option}>{option}</p>) */}
-                { // 裡面可寫js語法 與 return 產生DOM物件有所不同
-                    this.props.options.map((option)=><Option key={option} optionText={option}/>)
-                }            
-            </div>
-        )
-    }
+// class Options extends React.Component{
+//     // constructor(props){
+//     //     super(props);
+//     //     this.RemoveAll = this.RemoveAll.bind(this);
+//     // }//使用constructor綁定就不需要在底下每次使用時都再次使用
+//     // RemoveAll(){
+//     //     // alert('Remove All Successful')
+//     //     console.log(this.props.options);
+//     // }
+//     render(){
+//         return(
+//             <div>
+//                 <button onClick={this.props.handleRemove}>RemoveAll</button> {/*//使用bind(this)作法不好，是沒效率的*/}
+//                     {/* this.props.options.map((option)=><p key={option}>{option}</p>) */}
+//                 { // 裡面可寫js語法 與 return 產生DOM物件有所不同
+//                     this.props.options.map((option)=><Option key={option} optionText={option}/>)
+//                 }            
+//             </div>
+//         )
+//     }
+// }
+//40 -->轉換為function component
+const Options =(props)=>{
+    return (
+        <div>
+            <button onClick={props.handleRemove}>RemoveAll</button>
+            {props.options.map((option)=><Option key={option} optionText={option}/>)}
+        </div>
+    );
 }
 //Option -> Option componet here
-class Option extends React.Component{
-    render(){
-        return(
-            <div>Option : {this.props.optionText}</div>
-        )
-    }
+const Option = (props)=>{
+    return(
+        <div>
+            Option:{props.optionText}
+        </div>
+    );
 }
+// class Option extends React.Component{
+//     render(){
+//         return(
+//             <div>Option : {this.props.optionText}</div>
+//         )
+//     }
+// }
 //AddOption -> AddOption component here
 
 //>>>>>> Class 29.<<<<<<
@@ -170,4 +216,13 @@ class AddOption extends React.Component{
 //         <IndecisionApp/>
 //     </div>
 // )
+const User = (props) =>{
+    return(
+        <div>
+            <p>Name: {props.name}</p>
+            <p>Age: {props.age}</p>
+        </div>
+    );
+}
+//Class40. ReactDOM.render(<User name="noah" age={26}/>,document.getElementById('app'))
 ReactDOM.render(<IndecisionApp/>,document.getElementById('app'))
