@@ -6,7 +6,7 @@ class Conunter extends React.Component{
         this.MinusOne = this.MinusOne.bind(this);
         this.Reset = this.Reset.bind(this);
         this.state = {
-            count:0
+            count:props.count
         };
     }
     AddOne(){
@@ -17,7 +17,7 @@ class Conunter extends React.Component{
         });
     }
     MinusOne(){
-        this.setState((e)=>{
+         this.setState((e)=>{
             return{
                 count:e.count-1
             };
@@ -41,7 +41,10 @@ class Conunter extends React.Component{
         );
     }
 }
-ReactDOM.render(<Conunter/>,document.getElementById('app'))
+Conunter.defaultProps={
+    count:0
+}
+ReactDOM.render(<Conunter />,document.getElementById('app'))
 // 講解是否有在function("e")內傳e值所帶來影響
 // 如果有給值則會先抓取方法內的值 也就是count 
 // 來做+1 而不是抓取前一筆資料來做+1的動作
