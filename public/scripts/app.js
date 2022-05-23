@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -36,27 +36,31 @@ var IndecisionApp = function (_React$Component) {
         _this.handleRemove = _this.handleRemove.bind(_this);
         _this.handleClick = _this.handleClick.bind(_this);
         _this.formSubmit = _this.formSubmit.bind(_this);
+        _this.handleRemoveIndex = _this.handleRemoveIndex.bind(_this);
         return _this;
     }
 
     _createClass(IndecisionApp, [{
-        key: "handleRemove",
+        key: 'handleRemove',
         value: function handleRemove() {
             this.setState(function () {
-                return {
-                    options: []
-                };
+                return { options: [] };
             });
+        }
+    }, {
+        key: 'handleRemoveIndex',
+        value: function handleRemoveIndex(option) {
+            console.log('test', option);
         }
         //Class 36 handlePick - pass to Action and setup onClick - bind here
 
     }, {
-        key: "handleClick",
+        key: 'handleClick',
         value: function handleClick() {
             alert(this.state.options[Math.floor(Math.random() * this.state.options.length)]);
         }
     }, {
-        key: "formSubmit",
+        key: 'formSubmit',
         value: function formSubmit(option) {
             if (!option) {
                 return "請輸入值";
@@ -65,23 +69,22 @@ var IndecisionApp = function (_React$Component) {
             } else {}
             this.setState(function (e) {
                 return {
-                    options: e.options.concat([option])
-                    //concat可使原有陣列資料不受到破壞
+                    options: e.options.concat(option)
                 };
             });
         }
     }, {
-        key: "render",
+        key: 'render',
         value: function render() {
             var title = 'indecision';
             var subtitle = 'FirstPractice For Component';
             // const options = ['Option one','Option two','Option three']
             return React.createElement(
-                "div",
+                'div',
                 null,
                 React.createElement(Header, null),
                 React.createElement(Action, { handleClick: this.handleClick, hasOptions: this.state.options.length > 0 }),
-                React.createElement(Options, { handleRemove: this.handleRemove, options: this.state.options }),
+                React.createElement(Options, { handleRemove: this.handleRemove, options: this.state.options, handleRemoveIndex: this.handleRemoveIndex }),
                 React.createElement(AddOption, { formSubmit: this.formSubmit })
             );
         }
@@ -95,15 +98,15 @@ IndecisionApp.defaultProps = {
 };
 var Header = function Header(props) {
     return React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(
-            "h1",
+            'h1',
             null,
             props.title
         ),
         React.createElement(
-            "h2",
+            'h2',
             null,
             props.subtitle
         )
@@ -126,14 +129,14 @@ Header.defaultProps = {
 //Class40 轉換為function component
 var Action = function Action(props) {
     return React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(
-            "button",
+            'button',
             { onClick: props.handleClick,
                 disabled: !props.hasOptions
             },
-            "What should I do?"
+            'What should I do?'
         )
     );
 };
@@ -184,25 +187,33 @@ var Action = function Action(props) {
 //40 -->轉換為function component
 var Options = function Options(props) {
     return React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(
-            "button",
+            'button',
             { onClick: props.handleRemove },
-            "RemoveAll"
+            'RemoveAll'
         ),
         props.options.map(function (option) {
-            return React.createElement(Option, { key: option, optionText: option });
+            return React.createElement(Option, { key: option,
+                optionText: option,
+                handleRemoveIndex: props.handleRemoveIndex
+            });
         })
     );
 };
 //Option -> Option componet here
 var Option = function Option(props) {
     return React.createElement(
-        "div",
+        'div',
         null,
-        "Option:",
-        props.optionText
+        'Option:',
+        props.optionText,
+        React.createElement(
+            'button',
+            { onClick: props.handleRemoveIndex },
+            'remove'
+        )
     );
 };
 // class Option extends React.Component{
@@ -235,7 +246,7 @@ var AddOption = function (_React$Component2) {
     }
 
     _createClass(AddOption, [{
-        key: "formSubmit",
+        key: 'formSubmit',
         value: function formSubmit(e) {
             e.preventDefault();
             var option = e.target.elements.option.value.trim();
@@ -243,6 +254,9 @@ var AddOption = function (_React$Component2) {
             this.setState(function () {
                 return { error: error };
             });
+            // this.setState(()=>{
+            //     return{error}
+            // });
             // if(option){
             //     this.props.formSubmit(option);
             // } 
@@ -252,24 +266,24 @@ var AddOption = function (_React$Component2) {
             // }
         }
     }, {
-        key: "render",
+        key: 'render',
         value: function render() {
             return React.createElement(
-                "div",
+                'div',
                 null,
                 this.state.error && React.createElement(
-                    "p",
+                    'p',
                     null,
                     this.state.error
                 ),
                 React.createElement(
-                    "form",
+                    'form',
                     { onSubmit: this.formSubmit },
-                    React.createElement("input", { type: "text", name: "option" }),
+                    React.createElement('input', { type: 'text', name: 'option' }),
                     React.createElement(
-                        "button",
+                        'button',
                         null,
-                        "add"
+                        'add'
                     )
                 )
             );
@@ -288,18 +302,18 @@ var AddOption = function (_React$Component2) {
 
 var User = function User(props) {
     return React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(
-            "p",
+            'p',
             null,
-            "Name: ",
+            'Name: ',
             props.name
         ),
         React.createElement(
-            "p",
+            'p',
             null,
-            "Age: ",
+            'Age: ',
             props.age
         )
     );

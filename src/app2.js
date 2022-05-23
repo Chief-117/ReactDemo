@@ -21,13 +21,13 @@ class IndecisionApp extends React.Component{
         this.handleRemove = this.handleRemove.bind(this)
         this.handleClick = this.handleClick.bind(this)
         this.formSubmit = this.formSubmit.bind(this)
+        this.handleRemoveIndex = this.handleRemoveIndex.bind(this);
     }
     handleRemove(){
-        this.setState(()=>{
-            return{
-                options : []
-            };
-        });
+        this.setState(()=>({ options : [] }));
+    }
+    handleRemoveIndex(option){
+        console.log('test',option);
     }
     //Class 36 handlePick - pass to Action and setup onClick - bind here
     handleClick(){
@@ -41,12 +41,9 @@ class IndecisionApp extends React.Component{
         }else{
 
         }
-        this.setState((e)=>{
-            return{
-                options : e.options.concat([option])
-                //concat可使原有陣列資料不受到破壞
-            };
-        })
+        this.setState((e)=>({
+            options : e.options.concat(option)
+        }));
     }
     render(){
         const title = 'indecision';
@@ -56,7 +53,7 @@ class IndecisionApp extends React.Component{
             <div>
                 <Header />
                 <Action handleClick={this.handleClick} hasOptions={this.state.options.length > 0 }/>
-                <Options handleRemove={this.handleRemove} options={this.state.options}/>
+                <Options handleRemove={this.handleRemove} options={this.state.options} handleRemoveIndex={this.handleRemoveIndex}/>
                 <AddOption formSubmit={this.formSubmit}/>
             </div>
         )
@@ -150,7 +147,13 @@ const Options =(props)=>{
     return (
         <div>
             <button onClick={props.handleRemove}>RemoveAll</button>
-            {props.options.map((option)=><Option key={option} optionText={option}/>)}
+            {props.options.map((option)=>(
+                <Option key={option} 
+                 optionText={option}
+                 handleRemoveIndex={props.handleRemoveIndex}
+                 />
+                    ))
+                }
         </div>
     );
 }
@@ -159,6 +162,7 @@ const Option = (props)=>{
     return(
         <div>
             Option:{props.optionText}
+            <button onClick={props.handleRemoveIndex}>remove</button>
         </div>
     );
 }
@@ -187,9 +191,10 @@ class AddOption extends React.Component{
         e.preventDefault();
         const option = e.target.elements.option.value.trim();
         const error = this.props.formSubmit(option);;
-        this.setState(()=>{
-            return{error}
-        });
+        this.setState(()=>({error}))
+        // this.setState(()=>{
+        //     return{error}
+        // });
         // if(option){
         //     this.props.formSubmit(option);
         // } 
